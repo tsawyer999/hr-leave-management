@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HR.LeaveManagement.Application.Contracts;
 using HR.LeaveManagement.Application.Contracts.Persistence;
 using MediatR;
 
@@ -17,6 +18,14 @@ public class CreateLeaveTypeCommandHandler : IRequestHandler<CreateLeaveTypeComm
 
     public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
     {
+        var validator = new CreateLeaveTypeCommandValidator(_leaveTypeRepository);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (validationResult.Errors.Any())
+        {
+            throw new BadRequestException("Invalida LeaveType");
+        }
+
         var leaveTypeToCreate = _mapper.Map<Domain.LeaveType>(request);
 
         await _leaveTypeRepository.CreateAsync(leaveTypeToCreate);

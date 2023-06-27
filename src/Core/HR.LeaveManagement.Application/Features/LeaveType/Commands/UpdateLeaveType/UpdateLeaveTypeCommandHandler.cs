@@ -20,7 +20,7 @@ public class UpdateLeaveTypeCommandHandler
     {
         // Validate incoming data
         var validator = new UpdateLeaveTypeCommandValidator(_leaveTypeRepository);
-        var validationResult = await validator.ValidateAsync(request);
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (validationResult.Errors.Any())
         {

@@ -5,12 +5,6 @@ using MediatR;
 
 namespace HR.LeaveManagement.Application.Features.LeaveType.Queries.GetLeaveTypeDetails;
 
-    internal class GetLeaveTypeDetailsQueryHandler
-    {
-    }
-
-
-
 public class GetLeaveTypesQueryHandler : IRequestHandler<GetLeaveTypeDetailsQuery, LeaveTypeDetailsDto>
 {
     private readonly IMapper _mapper;
@@ -24,7 +18,7 @@ public class GetLeaveTypesQueryHandler : IRequestHandler<GetLeaveTypeDetailsQuer
 
     public async Task<LeaveTypeDetailsDto> Handle(GetLeaveTypeDetailsQuery request, CancellationToken cancellationToken)
     {
-        var leaveTypes = await _leaveTypeRepository.GetByIdAsync(request.id);
+        var leaveTypes = await _leaveTypeRepository.GetByIdAsync(request.Id);
         var data = _mapper.Map<LeaveTypeDetailsDto>(leaveTypes);
         return data;
     }
